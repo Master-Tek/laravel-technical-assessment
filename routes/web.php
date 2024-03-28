@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Livewire\FormComponent;
-use App\Livewire\ResultsPageComponent;
+use App\Livewire\UserForm;
+use App\Livewire\UsersInfo;
 
-Route::get('/', FormComponent::class);
-Route::get('/results-page', ResultsPageComponent::class);
+Route::get('/', UserForm::class);
+Route::get('/users/{id}', UsersInfo::class);

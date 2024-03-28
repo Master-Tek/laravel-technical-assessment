@@ -3,9 +3,10 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\User;
 use Carbon\Carbon;
 
-class FormComponent extends Component
+class UserForm extends Component
 {
     public $currentPage = 1;
 
@@ -58,18 +59,17 @@ class FormComponent extends Component
         $dob = Carbon::createFromDate($this->dobYear, $this->dobMonth, $this->dobDay);
         $formData = $this->collectFormData($dob);
 
-        if ($this->married) {
-            $marriageDate = Carbon::createFromDate($this->marriageDateYear, $this->marriageDateMonth, $this->marriageDateDay);
-            if ($marriageDate->lessThan($dob->copy()->addYears(18))) {
+        if ($formData['married']) {
+            if ($formData['dateOfMarriage']->lessThan($dob->copy()->addYears(18))) {
                 $this->addError('marriageDate', 'You are not eligible to apply because your marriage occurred before your 18th birthday.');
                 return;
             }
-            $formData['Marriage Date'] = $marriageDate->toDateString();
-            $formData['Country of Marriage'] = $this->countryOfMarriage;
         }
 
-        session(['formData' => $formData]);
-        return redirect()->to('/results-page');
+        $user = User::create($formData);
+
+        session()->flash('sucess-message', 'User saved successfully.');
+        return redirect()->to('/users/'. $user->id);
     }
 
     protected function validatePage()
@@ -83,7 +83,7 @@ class FormComponent extends Component
                 'country' => 'required|string|max:255',
                 'dobDay' => 'required|integer|min:1|max:31',
                 'dobMonth' => 'required|integer|min:1|max:12',
-                'dobYear' => 'required|integer|min:1900|max:2023',
+                'dobYear' => 'required|integer|min:1900|max:2024',
             ],
             2 => [
                 'married' => 'required|boolean',
@@ -112,25 +112,25 @@ class FormComponent extends Component
     private function collectFormData(Carbon $dob)
     {
         $formData = [
-            'First Name' => $this->firstName,
-            'Last Name' => $this->lastName,
-            'Address' => $this->address,
-            'City' => $this->city,
-            'Country' => $this->country,
-            'Date of Birth' => $dob->toDateString(),
-            'Married' => $this->married ? 'Yes' : 'No',
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'address' => $this->address,
+            'city' => $this->city,
+            'country' => $this->country,
+            'dateOfBirth' => $dob,
+            'married' => $this->married,
         ];
 
         if ($this->married) {
             $marriageDate = Carbon::createFromDate($this->marriageDateYear, $this->marriageDateMonth, $this->marriageDateDay);
             $formData += [
-                'Marriage Date' => $marriageDate->toDateString(),
-                'Country of Marriage' => $this->countryOfMarriage,
+                'dateOfMarriage' => $marriageDate,
+                'marriageCountry' => $this->countryOfMarriage,
             ];
         } else {
             $formData += [
-                'Is Widowed' => $this->isWidowed ? 'Yes' : 'No',
-                'Was Married Before' => $this->wasMarriedBefore ? 'Yes' : 'No',
+                'widowed' => $this->isWidowed,
+                'marriedInPast' => $this->wasMarriedBefore,
             ];
         }
 
@@ -139,6 +139,6 @@ class FormComponent extends Component
 
     public function render()
     {
-        return view('livewire.form-component')->layout('layouts.app');
+        return view('livewire.user-form')->layout('layouts.app');
     }
 }
