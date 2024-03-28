@@ -1,13 +1,17 @@
-<div>
+<div class="container mt-3">
     @if($formData)
-        <div>
-            <h2>User Information</h2>
-            <ul>
+        <div class="card">
+            <div class="card-header">
+                <h2>User Information</h2>
+            </div>
+            <ul class="list-group list-group-flush">
                 @foreach($formData as $key => $value)
-                    <li>{{ $key }}: {{ $value }}</li>
+                    <li class="list-group-item"><strong>{{ $key }}:</strong> {{ $value }}</li>
                 @endforeach
             </ul>
-            <button type="button" wire:click="redirectToHome">Ok!</button>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary" wire:click="redirectToHome">Ok!</button>
+            </div>
         </div>
     @endif
 </div>
