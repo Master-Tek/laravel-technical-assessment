@@ -24,7 +24,6 @@ class UserForm extends Component
 
     public function mount()
     {
-        session()->forget('formData');
         // Populate days
         for ($i = 1; $i <= 31; $i++) {
             $this->days[] = $i;
