@@ -8,7 +8,7 @@
                 <li class="list-group-item"><strong>Last name:</strong> {{$user->lastName}}</li>
                 <li class="list-group-item"><strong>Address:</strong> {{$user->address}}</li>
                 <li class="list-group-item"><strong>City:</strong> {{$user->city}}</li>
-                <li class="list-group-item"><strong>Country:</strong> {{$user->city}}</li>
+                <li class="list-group-item"><strong>Country:</strong> {{$user->country}}</li>
                 <li class="list-group-item"><strong>Date of birth:</strong> {{$this->userDateOfBirth()}}</li>
                 <li class="list-group-item"><strong>Married:</strong> {{$this->isMarried()}}</li>
                 @if($user->married)

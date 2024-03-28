@@ -91,14 +91,14 @@ class UserForm extends Component
         ];
 
         if ($this->currentPage === 2) {
-            if ($this->married) {
+            if ($this->married === '1') {
                 $rules[2] += [
                     'marriageDateDay' => 'required|integer|min:1|max:31',
                     'marriageDateMonth' => 'required|integer|min:1|max:12',
                     'marriageDateYear' => 'required|integer|min:1900|max:2023',
                     'countryOfMarriage' => 'required|string|max:255',
                 ];
-            } else {
+            } elseif ($this->married === '0') {
                 $rules[2] += [
                     'isWidowed' => 'required|boolean',
                     'wasMarriedBefore' => 'required|boolean',

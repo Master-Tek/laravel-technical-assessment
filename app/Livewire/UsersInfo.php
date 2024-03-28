@@ -17,7 +17,7 @@ class UsersInfo extends Component
     
     public function userDateOfBirth()
     {   
-        return \Carbon\Carbon::parse($this->user?->dateOfBirth)->format('d-m-Y');
+        return Carbon::parse($this->user?->dateOfBirth)->format('d-m-Y');
     }
 
     public function isMarried()
@@ -27,7 +27,7 @@ class UsersInfo extends Component
 
     public function userDateOfMarriage()
     {   
-        return \Carbon\Carbon::parse($this->user?->dateOfMarriage)->format('d-m-Y');
+        return Carbon::parse($this->user?->dateOfMarriage)->format('d-m-Y');
     }
 
     public function isWidowed()
