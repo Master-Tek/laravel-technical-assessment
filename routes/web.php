@@ -2,8 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Livewire\FormComponent;
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Livewire\ResultsPageComponent;
 
-Route::get('/form', FormComponent::class);
+Route::get('/', FormComponent::class);
+Route::get('/results-page', ResultsPageComponent::class);
